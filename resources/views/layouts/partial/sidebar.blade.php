@@ -35,6 +35,12 @@
                     <p>Items</p>
                 </a>
             </li>
+            <li class="nav-item {{Request::is('admin/dishes*')? 'active': ''}}">
+                <a class="nav-link" href="{{route('dish.index')}}">
+                    <i class="material-icons">fastfood</i>
+                    <p>Dishes</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
