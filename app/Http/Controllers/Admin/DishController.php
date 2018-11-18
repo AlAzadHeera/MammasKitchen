@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Dish;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +16,8 @@ class DishController extends Controller
      */
     public function index()
     {
-        return view('admin.Dishes.index');
+        $dishes = Dish::all();
+        return view('admin.Dishes.index',compact('dishes'));
     }
 
     /**
@@ -24,7 +27,8 @@ class DishController extends Controller
      */
     public function create()
     {
-        //
+        $dishes = Dish::all();
+        return view('admin.Dishes.create',compact('dishes'));
     }
 
     /**
@@ -35,7 +39,34 @@ class DishController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required',
+            'image'       => 'required | mimes: jpg,jpeg,png'
+        ]);
+
+        $image = $request->file('image');
+        $slug = str_slug($request->name);
+
+        if (isset($image)){
+            $currentDate =  Carbon::now()->toDateString();
+            $imagename = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            if (!file_exists('uploads/dish')){
+                mkdir('uploads/dish',007,true);
+            }else{
+                $image->move('uploads/dish',$imagename);
+            }
+
+        }else{
+            $imagename = 'default.png';
+        }
+
+        $dish = new Dish();
+        $dish->name = $request->name;
+        $dish->image = $imagename;
+        $dish->save();
+        return redirect()->route('dish.index')->with('successMsg','Dish Image Successfully Saved!!!');
+
     }
 
     /**

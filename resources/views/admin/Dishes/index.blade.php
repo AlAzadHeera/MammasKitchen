@@ -11,7 +11,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{route('item.create')}}" class="btn btn-info">Add A New Item</a>
+                    <a href="{{ route('dish.create') }}" class="btn btn-info">Add A New Item</a>
                     @if(session('successMsg'))
                         <div class="alert alert-success">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -30,32 +30,27 @@
                                     <thead class=" text-primary">
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Image</th>
                                     <th>Description</th>
-                                    <th>Price</th>
-                                    <th>Category</th>
                                     <th>Action</th>
                                     </thead>
                                     <tbody>
-                                    @foreach($items as $key=>$item)
+                                    @foreach($dishes as $key=>$dish)
                                     <tr>
                                         <td>{{$key + 1}}</td>
-                                        <td>{{$item->name}}</td>
-                                        <td width="20%"><img class="img-responsive img-thumbnail" src="{{asset('uploads/item/'.$item->image)}}" alt="default.png"></td>
-                                        <td>{{$item->description}}</td>
-                                        <td>${{$item->price}}</td>
-                                        <td>{{$item->category->name}}</td>
+                                        <td>{{$dish->name}}</td>
+                                        <td width="20%"><img class="img-responsive img-thumbnail" src="{{asset('uploads/dish/'.$dish->image)}}" alt="default.png"></td>
+                                        <td>{{$dish->description}}</td>
                                         <td>
-                                            <a href="{{route('item.edit',$item->id)}}" class="btn btn-info btn-sm"><i class="material-icons">
+                                            <a href="{{route('dish.edit',$dish->id)}}" class="btn btn-info btn-sm"><i class="material-icons">
                                                     edit
                                                 </i></a>
-                                            <form method="post" id="delete-form-{{ $item->id }}" action="{{route('item.destroy',$item->id)}} " style="display:none">
+                                            <form method="post" id="delete-form-{{ $dish->id }}" action="{{route('item.destroy',$dish->id)}} " style="display:none">
                                                 @csrf
                                                 @method('delete')
                                             </form>
                                             <button class="btn btn-danger btn-sm" onclick="if (confirm('Are You Sure?')){
                                                 event.preventDefault();
-                                                getElementById('delete-form-{{$item->id}}').submit()
+                                                getElementById('delete-form-{{$dish->id}}').submit()
                                             }else{ preventDefault(); } "><i class="material-icons">
                                                     delete_forever
                                                 </i></button>
