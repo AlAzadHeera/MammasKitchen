@@ -18,68 +18,31 @@
                         </div>
                         <div class="card-body">
                             <div class="">
-                                <form method="post" action="{{route('item.update',$item->id)}}" enctype="multipart/form-data">
+                                <form id="uploadImage" method="post" action="{{route('dish.update',$dishes->id)}}" enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="bmd-label-floating">Category</label>
-                                                <select class="form-control" name="category" id="">
-                                                    @foreach($categories as $key=>$category)
-                                                        <option value="{{$category->id}}" {{ $category->id == $item ->category_id ? ' selected' : '' }}>
-                                                            {{$category->name}}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
                                                 <label class="bmd-label-floating">Name</label>
-                                                <input type="text" class="form-control" name="name" value="{{$item->name}}">
+                                                <input type="text" class="form-control" name="name" value="{{ $dishes->name }}">
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Image</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="bmd-label-floating">Description</label>
-                                                <textarea name="description" id="" class="form-control">{{$item->description}}</textarea>
-                                            </div>
+                                            <input type="file" name="image" id="image">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="bmd-label-floating">Prize</label>
-                                                <input type="number" class="form-control" name="price" value="{{$item->price}}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="bmd-label-floating">Image</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="file" name="image">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="item-image pull-right" style="width:200px; height:200px;">
-                                                <img class="img-thumbnail img-responsive" src="{{asset('uploads/item/'.$item->image)}}" alt="default.png" width="100%" height="100%">
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    <div id="targetLayer" style="display:none"></div>
                                     <br>
                                     <button type="submit" class="btn btn-primary">Save</button>
-                                    <a href="{{route('item.index')}}" class="btn btn-danger">Back</a>
+                                    <a href="{{route('dish.index')}}" class="btn btn-danger">Back</a>
                                 </form>
                             </div>
                         </div>
@@ -91,5 +54,19 @@
 @endsection
 
 @push('scripts')
-
+    <script>
+        function filePreview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#uploadImage + img').remove();
+                    $('#uploadImage').after('<img class="img-thumbnail" src="'+e.target.result+'" width="350" height="200"/>');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#image").change(function () {
+            filePreview(this);
+        });
+    </script>
 @endpush

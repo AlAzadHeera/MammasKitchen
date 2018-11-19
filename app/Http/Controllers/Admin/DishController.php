@@ -88,7 +88,8 @@ class DishController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dishes = Dish::find($id);
+        return view('admin.Dishes.edit',compact('dishes'));
     }
 
     /**
@@ -100,7 +101,40 @@ class DishController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'name'        => 'required',
+            'image'       => 'mimes: jpg,jpeg,png'
+        ]);
+
+        $image = $request->file('image');
+        $slug = str_slug($request->name);
+        $dish = Dish::find($id);
+
+        if (isset($image)){
+
+            $dish = Dish::find($id);
+
+            if (file_exists('uploads/dish/'.$dish->image)){
+                unlink('uploads/dish/'.$dish->image);
+            }
+            $currentDate =  Carbon::now()->toDateString();
+            $imagename = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+
+            if (!file_exists('uploads/dish')){
+                mkdir('uploads/dish',007,true);
+            }else{
+                $image->move('uploads/dish',$imagename);
+            }
+
+        }else{
+            $imagename = $dish->image;
+        }
+
+        $dish->name = $request->name;
+        $dish->image = $imagename;
+        $dish->save();
+        return redirect()->route('dish.index')->with('successMsg','Dish Image Updated Successfully!!!');
     }
 
     /**
@@ -111,6 +145,11 @@ class DishController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dish = Dish::find($id);
+        if (file_exists('uploads/dish/'.$dish->image)){
+            unlink('uploads/dish/'.$dish->image);
+        }
+        $dish->delete();
+        return redirect()->back()->with('successMsg','Dish Image Deleted Successfully!!');
     }
 }

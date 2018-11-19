@@ -44,7 +44,7 @@
                                             <a href="{{route('dish.edit',$dish->id)}}" class="btn btn-info btn-sm"><i class="material-icons">
                                                     edit
                                                 </i></a>
-                                            <form method="post" id="delete-form-{{ $dish->id }}" action="{{route('item.destroy',$dish->id)}} " style="display:none">
+                                            <form method="post" id="delete-form-{{ $dish->id }}" action="{{route('dish.destroy',$dish->id)}} " style="display:none">
                                                 @csrf
                                                 @method('delete')
                                             </form>

@@ -22,4 +22,5 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'admin'],funct
     Route::resource('category','CategoryController');
     Route::resource('item','ItemController');
     Route::resource('dish','DishController');
+    Route::resource('dish','DishController');
 });

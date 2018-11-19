@@ -41,6 +41,14 @@
                     <p>Dishes</p>
                 </a>
             </li>
+            <li class="nav-item {{Request::is('admin/social*')? 'active': ''}}">
+                <a class="nav-link" href="{{route('dish.index')}}">
+                    <i class="material-icons">
+                        whatshot
+                    </i>
+                    <p>Social Links</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
