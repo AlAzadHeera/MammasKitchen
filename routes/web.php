@@ -24,5 +24,6 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'admin'],funct
     Route::resource('item','ItemController');
     Route::resource('dish','DishController');
     Route::resource('social','SocialMenuController');
-    Route::get('reservation','ReservationController')->name('reservation.index');
+    Route::get('reservation','ReservationController@index')->name('reservation.index');
+    Route::post('reservation/{id}','ReservationController@status')->name('reservation.status');
 });

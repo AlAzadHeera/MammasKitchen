@@ -47,15 +47,24 @@
                                         <td>{{$reservation->message}}</td>
                                         <td>
                                             @if($reservation->status == true)
-                                                <span class="label label-success">Confirmed</span>
+                                                <span class="badge badge-green">Confirmed</span>
                                                 @else
-                                                <span class="label label-danger">Not Confirmed</span>
+                                                <span class="badge badge-danger">Not Confirmed</span>
                                                 @endif
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-info btn-sm"><i class="material-icons">
-                                                    edit
-                                                </i></a>
+                                            @if($reservation->status == false)
+                                                <form method="post" id="confirm-form-{{ $reservation->id }}" action="{{ route('reservation.status',$reservation->id) }}" style="display:none">
+                                                    @csrf
+                                                </form>
+                                                <button class="btn btn-success btn-sm" onclick="if (confirm('Are You Sure?')){
+                                                        event.preventDefault();
+                                                        getElementById('delete-form-{{$reservation->id}}').submit()
+                                                        }else{ preventDefault(); } "><i class="material-icons">
+                                                        done
+                                                    </i></button>
+                                            @endif
+
                                             <form method="post" id="delete-form-{{ $reservation->id }}" action="" style="display:none">
                                                 @csrf
                                                 @method('delete')
