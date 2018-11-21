@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\SocialMenu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,8 @@ class SocialMenuController extends Controller
      */
     public function index()
     {
-        //
+        $socials = SocialMenu::all();
+        return view('admin.Social.index',compact('socials'));
     }
 
     /**
@@ -57,7 +59,8 @@ class SocialMenuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $social = SocialMenu::find($id);
+        return view('admin.Social.edit',compact('social'));
     }
 
     /**
@@ -69,7 +72,20 @@ class SocialMenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'facebook' => 'required',
+            'twitter' => 'required',
+            'gp' => 'required',
+            'linkedin' => 'required',
+        ]);
+
+        $social = SocialMenu::find($id);
+        $social->facebook = $request->facebook;
+        $social->twitter = $request->twitter;
+        $social->gp = $request->gp;
+        $social->linkedin = $request->linkedin;
+        $social->save();
+        return redirect()->route('social.index')->with('successMsg','Social Link Updated!!!');
     }
 
     /**

@@ -12,6 +12,7 @@
 */
 
 Route::get('/','HomeController@index')->name('Home');
+Route::post('reservation','ReservationController@reserve')->name('reservation.reserve');
 
 Auth::routes();
 
@@ -22,5 +23,6 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'admin'],funct
     Route::resource('category','CategoryController');
     Route::resource('item','ItemController');
     Route::resource('dish','DishController');
-    Route::resource('dish','DishController');
+    Route::resource('social','SocialMenuController');
+    Route::get('reservation','ReservationController')->name('reservation.index');
 });

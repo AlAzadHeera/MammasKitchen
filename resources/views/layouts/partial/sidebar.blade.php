@@ -42,7 +42,7 @@
                 </a>
             </li>
             <li class="nav-item {{Request::is('admin/social*')? 'active': ''}}">
-                <a class="nav-link" href="{{route('dish.index')}}">
+                <a class="nav-link" href="{{route('social.index')}}">
                     <i class="material-icons">
                         whatshot
                     </i>

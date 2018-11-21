@@ -16,9 +16,12 @@
     <link rel="stylesheet" href="{{asset('frontend/css/flexslider.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/pricing.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/css/bootstrap-datetimepicker.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
     <script src="{{asset('frontend/js/jquery-1.11.2.min.js')}}"></script>
+    <script src="{{asset('frontend/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('frontend/js/jquery.flexslider.min.js')}}"></script>
     <script type="text/javascript">
         $(window).load(function() {
@@ -629,7 +632,8 @@
             <div class=" section-content">
                 <div class="row">
                     <div class="col-md-5 col-sm-6">
-                        <form class="reservation-form" method="post" action="reserve.php">
+                        <form class="reservation-form" method="post" action="{{ route('reservation.reserve') }}">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="form-group">
@@ -645,7 +649,7 @@
                                         <input type="tel" class="form-control reserve-form empty iconified" name="phone" id="phone" required="required" placeholder="  &#xf095;  Phone">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control reserve-form empty iconified" name="datepicker" id="datepicker" required="required" placeholder="&#xf017;  Time">
+                                        <input type="text" class="form-control reserve-form empty iconified" name="dateandtime" id="datetime-picker1" required="required" placeholder="&#xf017;  Time">
                                     </div>
                                 </div>
 
@@ -712,10 +716,12 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <ul class="center-block">
-                        <li><a href="#" class="fb"></a></li>
-                        <li><a href="#" class="twit"></a></li>
-                        <li><a href="#" class="g-plus"></a></li>
-                        <li><a href="#" class="link"></a></li>
+                        @foreach($socials as $social)
+                        <li><a href="{{$social->facebook}}" class="fb"></a></li>
+                        <li><a href="{{$social->twitter}}" class="twit"></a></li>
+                        <li><a href="{{$social->gp}}" class="g-plus"></a></li>
+                        <li><a href="{{$social->linkedin}}" class="link"></a></li>
+                            @endforeach
                     </ul>
                 </div>
             </div>
@@ -790,7 +796,28 @@
 <script type="text/javascript" src="{{asset('frontend/y.hoverdir.js')}}js/jquer"></script>
 <script type="text/javascript" src="{{asset('frontend/js/jQuery.scrollSpeed.js')}}"></script>
 <script src="{{asset('frontend/js/script.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <script>
+            toastr.error('{{ $error }}');
+        </script>
+    @endforeach
+@endif
+
+<script>
+    $(function () {
+        $('#datetime-picker1').datetimepicker({
+           format: "dd MM yyyy - HH:ll P",
+            showMeridian: true,
+            autoclose: true,
+            todayBtn: true
+        });
+    })
+</script>
+
+{!! Toastr::message() !!}
 
 </body>
 </html>

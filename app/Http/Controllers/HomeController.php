@@ -6,6 +6,7 @@ use App\Category;
 use App\Dish;
 use App\Item;
 use App\slider;
+use App\SocialMenu;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,6 +23,7 @@ class HomeController extends Controller
         $items    = Item::all();
         $categories = Category::all();
         $dishes = Dish::all();
-        return view('welcome',compact('sliders','items','categories','dishes'));
+        $socials = SocialMenu::all();
+        return view('welcome',compact('sliders','items','categories','dishes','socials'));
     }
 }

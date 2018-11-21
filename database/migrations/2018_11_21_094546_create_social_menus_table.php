@@ -15,8 +15,10 @@ class CreateSocialMenusTable extends Migration
     {
         Schema::create('social_menus', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('sitename');
-            $table->string('url');
+            $table->string('facebook');
+            $table->string('twitter');
+            $table->string('gp');
+            $table->string('linkedin');
             $table->timestamps();
         });
     }
