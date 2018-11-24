@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Reservation')
+@section('title','Contact')
 
 @push('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
@@ -11,7 +11,6 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{route('slider.create')}}" class="btn btn-info">Create A New Slider</a>
                     @if(session('successMsg'))
                         <div class="alert alert-success">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -22,7 +21,7 @@
                     @endif
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4 class="card-title ">All Sliders</h4>
+                            <h4 class="card-title ">All Messages</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -30,48 +29,30 @@
                                     <thead class=" text-primary">
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Time And Date</th>
+                                    <th>Subject</th>
                                     <th>Message</th>
-                                    <th>Status</th>
+                                    <th>Sent At</th>
+                                    <th>Action</th>
                                     </thead>
                                     <tbody>
-                                    @foreach($reservations as $key=>$reservation)
+                                    @foreach($messages as $key=>$message)
                                     <tr>
                                         <td>{{$key + 1}}</td>
-                                        <td>{{$reservation->name}}</td>
-                                        <td>{{$reservation->phone}}</td>
-                                        <td>{{$reservation->email}}</td>
-                                        <td>{{$reservation->date_and_time}}</td>
-                                        <td>{{$reservation->message}}</td>
+                                        <td>{{$message->id}}</td>
+                                        <td>{{$message->subject}}</td>
+                                        <td>{{$message->message}}</td>
+                                        <td>{{$message->created_at}}</td>
                                         <td>
-                                            @if($reservation->status == true)
-                                                <span class="badge badge-success">Confirmed</span>
-                                                @else
-                                                <span class="badge badge-danger">Not Confirmed</span>
-                                                @endif
-                                        </td>
-                                        <td>
-                                            @if($reservation->status == false)
-                                                <form method="post" id="confirm-form-{{ $reservation->id }}" action="{{ route('reservation.status',$reservation->id) }}" style="display:none">
-                                                    @csrf
-                                                </form>
-                                                <button class="btn btn-success btn-sm" onclick="if (confirm('Are You Sure?')){
-                                                        event.preventDefault();
-                                                        getElementById('confirm-form-{{ $reservation->id }}').submit()
-                                                        }else{ preventDefault(); } "><i class="material-icons">
-                                                        done
-                                                    </i></button>
-                                            @endif
-
-                                            <form method="post" id="delete-form-{{ $reservation->id }}" action="{{ route('reservation.delete',$reservation->id) }}" style="display:none">
+                                            <a href="{{route('slider.edit',$message->id)}}" class="btn btn-info btn-sm"><i class="material-icons">
+                                                    edit
+                                                </i></a>
+                                            <form method="post" id="delete-form-{{ $messages->id }}" action="{{route('slider.destroy',$message->id)}} " style="display:none">
                                                 @csrf
                                                 @method('delete')
                                             </form>
                                             <button class="btn btn-danger btn-sm" onclick="if (confirm('Are You Sure?')){
                                                 event.preventDefault();
-                                                getElementById('delete-form-{{$reservation->id}}').submit()
+                                                getElementById('delete-form-{{$message->id}}').submit()
                                             }else{ preventDefault(); } "><i class="material-icons">
                                                     delete_forever
                                                 </i></button>
