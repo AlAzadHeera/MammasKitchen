@@ -29,4 +29,6 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'admin'],funct
     Route::post('reservation/{id}','ReservationController@status')->name('reservation.status');
     Route::delete('reservation/{id}','ReservationController@delete')->name('reservation.delete');
     Route::get('contact','ContactController@index')->name('contact.index');
+    Route::get('contact/{id}','ContactController@showmsg')->name('contact.showmsg');
+    Route::delete('contact/{id}','ContactController@delete')->name('contact.delete');
 });

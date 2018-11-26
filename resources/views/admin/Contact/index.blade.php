@@ -38,15 +38,15 @@
                                     @foreach($messages as $key=>$message)
                                     <tr>
                                         <td>{{$key + 1}}</td>
-                                        <td>{{$message->id}}</td>
+                                        <td>{{$message->name}}</td>
                                         <td>{{$message->subject}}</td>
                                         <td>{{$message->message}}</td>
                                         <td>{{$message->created_at}}</td>
                                         <td>
-                                            <a href="{{route('slider.edit',$message->id)}}" class="btn btn-info btn-sm"><i class="material-icons">
-                                                    edit
+                                            <a href="{{route('contact.showmsg',$message->id)}}" class="btn btn-info btn-sm"><i class="material-icons">
+                                                    message
                                                 </i></a>
-                                            <form method="post" id="delete-form-{{ $messages->id }}" action="{{route('slider.destroy',$message->id)}} " style="display:none">
+                                            <form method="post" id="delete-form-{{ $message->id }}" action="{{route('contact.delete',$message->id)}} " style="display:none">
                                                 @csrf
                                                 @method('delete')
                                             </form>
